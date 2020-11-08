@@ -7,9 +7,9 @@ router.post('/create', HistoryController.create);
 
 router.delete('/delete', HistoryController.delete);
 
-router.get('/findId/:id', HistoryController.showId);
+router.get('/showId/:id', HistoryController.showId);
 
-router.get('/findAll', HistoryController.showAll);
+router.get('/showAll', HistoryController.showAll);
 
 router.put('/modify', HistoryController.modify);
 

@@ -1,27 +1,18 @@
-const {
-    Customer
-} = require('../models/customer');
+const {Customer, sequelize} = require('../models/index.js');
 
-
-const conex = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'dentistOffice',
-    password: '1234'
-});
 
 // const bcrypt = require('bcrypt');
 // const jwt = require('jsonwebtoken');
 
-const CustomerController = {
-    
-    async register(req,res) {
+const customerController = {
+
+    async register(req, res) {
         try {
             const db = await conex;
-            const [appointments] = await db.execute(`SELECT * FROM appointments`);
+            const [customers] = await db.execute(`SELECT * FROM customers`);
             //console.log(appointments)
             res.send({
-                appointments
+                customers
             });
         } catch (error) {
             console.error(error);
@@ -31,43 +22,77 @@ const CustomerController = {
         }
     },
 
-    async login(req, res) {
-    //     let user = await User.exists({'mail': req.body.mail})
-    //     let password = await User.exists({'mail': req.body.mail,'password':req.body.password})
-         
-        
-    //     if ( user && password) {
-    //          const payload = {
-    //              check: true
+    // async login(req, res) {
+    // let user = await User.exists({'mail': req.body.mail})
+    // let password = await User.exists({'mail': req.body.mail,'password':req.body.password})
+
+
+    // if ( user && password) {
+    //        const payload = {
+    //         check: true
     //          };
-    //          const token = jwt.sign(payload, config.key, {
-    //              expiresIn: 1440
-    //          });
+    //           const token = jwt.sign(payload, config.key, {
+    //            expiresIn: 1440
+    //         });
     //          res.json({
-    //              mensaje: 'Autenticación correcta',
-    //              token: token
-    //          });
-    //      } else {
-    //          res.json({ mensaje: "Datos incorrectos" }) 
-    //      }
+    //               mensaje: 'Autenticación correcta',
+    //             token: token
+    //        });
+    //    } else {
+    //         res.json({ mensaje: "Datos incorrectos" }) 
+    //     }
+    // },
+
+    // async logout(req,res){
+
+    // },
+
+    async delete(req, res) {
+      
+        try {
+            const mail = await Customer.destroy({
+                where: {
+                    mail: req.body.mail
+                }
+            })
+            if (!mail) {
+                return res.status(400).send({
+                    message: 'The account could not be removed. Please check mail'
+                })
+            }
+            res.send({
+                message: 'Account successfully removed'
+            })
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({
+                message: 'There was a problem trying to remove the account'
+            })
+        }
     },
 
-    async logout(req,res){
-
+    async findId(req, res) {
+        let idCustomer = req.params.id;
+        sequelize.query(`SELECT * from customers WHERE id = ${idCustomer}`)
+            .then(customer => res.send(customer))
+            .catch(error => {
+                console.error(error);
+                res.status(500).send({
+                    message: 'Could not find customer'
+                })
+            })
     },
 
-    async delete(req,res){
-
+    async findAll(req, res) {
+        sequelize.query(`SELECT * from customers`)
+            .then(customer => res.send(customer))
+            .catch(error => {
+                console.error(error);
+                res.status(500).send({
+                    message: 'Could not find customer'
+                })
+            })
     },
-
-    async modify(req,res){
-
-    },
-
-    async findId(req,res){
-        
-    }
-
 }
 
-module.exports = UserController;
+module.exports = customerController;

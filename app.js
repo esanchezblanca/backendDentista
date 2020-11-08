@@ -3,12 +3,21 @@ const mysql = require('mysql2/promise');
 const app = express();
 const PORT = 3000;
 
+
+const customerRouter = require('./routes/customerRouters');
+
+
 const conexion = mysql.createConnection({
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'root',
     database: 'dentistOffice',
     password: '1234'
 })
+    //PARA VER SI ESTAMOS CONECTADOS A LA BD
+.then(() => console.log('Sequelize connected'))
+.catch((error) => console.log('Error Sequelize connection', error));
+
+
 
 app.use(express.json()); //para evitar que el req.body sea undefined
 
@@ -19,25 +28,10 @@ app.use(function(req, res, next) { //para evitar el error CORS
     next();
 });
 
-// app.get('/', async(req, res) => {
-//     try {
-//         const db = await conexion;
-//         const [citas] = await db.execute(`SELECT * FROM citas`);
-//         console.log(citas)
-//         res.send({
-//             citas
-//         });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send({
-//             message: 'Ha habido un problema consultando las citas'
-//         });
-//     }
-// });
 
 //Enrutados
 app.use('/customers', customerRouter);
-app.use('/appointments', appointmentRouter);
+// app.use('/appointments', appointmentRouter);
 
 
-app.listen(PORT, () => console.log(`The server is workin on ${PORT} port`));
+app.listen(PORT, () => console.log(`Server working on ${PORT} port`));

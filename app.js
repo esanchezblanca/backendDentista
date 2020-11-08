@@ -5,6 +5,10 @@ const PORT = 3000;
 
 
 const customerRouter = require('./routes/customerRouters');
+// const appointmentRouter = require('./routes/appointmentRouters');
+const historyRouter = require('./routes/historyRouters');
+
+
 
 
 const conexion = mysql.createConnection({
@@ -31,6 +35,7 @@ app.use(function(req, res, next) { //para evitar el error CORS
 
 //Enrutados
 app.use('/customers', customerRouter);
+app.use('/history', historyRouter);
 // app.use('/appointments', appointmentRouter);
 
 

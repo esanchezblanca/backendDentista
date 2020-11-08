@@ -1,30 +1,57 @@
-const {
-    History
-} = require('../models/history');
-
-
-const conex = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'dentistOffice',
-    password: '1234'
-});
+const {History, sequelize} = require('../models/index.js');
 
 
  //faltan los middlewares
 
 const HistoryController = {
     
-    async create(req,res){
+    async create(req,res){ //CAMBIAR
+        try{
+            const history = await History.create({
+                id: req.body.history,
+                CustomerId: req.body.CustomerId,
+                allergies: req.body.allergies,
+                comments: req.body.comments,
+                smoker: req.body.smoker,
+            });
 
-    },
+            res.send({
+                message: 'History successfully created'
+            })
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({
+                message: 'History could not be created'
+            })
+        }
+    },          
 
     async modify(req,res){
 
     },
 
     async delete(req,res){
-        
+        try {
+            const idHistory = await History.destroy({
+                where: {
+                    id: req.body.id
+                }
+            })
+            if (!idHistory) {
+                return res.status(400).send({
+                    message: 'History could not be removed'
+                })
+            }
+            res.send({
+                message: 'History successfully removed'
+            })
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({
+                message: 'There was a problem trying to remove the history'
+            })
+        }
     },
 
     async showAll(req,res){
@@ -39,7 +66,7 @@ const HistoryController = {
     },
 
     async showId(req,res){
-        let historyId = req.body.id;
+        let idHistory = req.body.id;
 
         sequelize.query(`SELECT * from histories WHERE id = ${idHistory}`)
             .then(history => res.send(history))
@@ -49,8 +76,7 @@ const HistoryController = {
                     message: 'History not found'
                 })
             })
-        }
-
-    };
+    }
+};
 
 module.exports = HistoryController;

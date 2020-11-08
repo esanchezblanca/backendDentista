@@ -7,18 +7,30 @@ const {Customer, sequelize} = require('../models/index.js');
 const customerController = {
 
     async register(req, res) {
-        try {
-            const db = await conex;
-            const [customers] = await db.execute(`SELECT * FROM customers`);
-            //console.log(appointments)
-            res.send({
-                customers
+        try{
+            const customer = await Customer.create({
+                id: req.body.CustomerId,
+                name: req.body.name,
+                lastName: req.body.lastName,
+                phone: req.body.phone,
+                mail: req.body.mail,
+                password: req.body.password,
+                birthDay: req.body.birthDay,
+                eBilling: req.body.eBilling,
+                DNI: req.body.DNI,
+                remarks: req.body.remarks,
+                role: 'Guest',
             });
+
+            res.send({
+                message: 'Account successfully created'
+            })
+
         } catch (error) {
             console.error(error);
             res.status(500).send({
-                message: 'Ha habido un problema consultando las citas'
-            });
+                message: 'Customer could not be created'
+            })
         }
     },
 

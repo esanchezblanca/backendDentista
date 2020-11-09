@@ -12,3 +12,6 @@ module.exports = {
 
     }
 }
+
+//adminMiddleware es una función que se crea para comprobar si el que hace la petición es el admin o no
+//Si no es admin devuelve error que dice "no tienes los permisos necesarios para esta acción"

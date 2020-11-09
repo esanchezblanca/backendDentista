@@ -1,3 +1,5 @@
+//Se permite que los usuarios registrados puedan realizar acciones con este token
+
 const config = require('../config');
 const jwt = require('jsonwebtoken');
 module.exports = {

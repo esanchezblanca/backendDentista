@@ -12,4 +12,6 @@ router.get('/showId/:id',adminToken.adminMiddleware, HistoryController.showId);
 
 router.get('/showAll',adminToken.adminMiddleware, HistoryController.showAll);
 
+
+
 module.exports = router;

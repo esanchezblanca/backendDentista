@@ -29,10 +29,6 @@ const AppointmentController = {
         }
     },
 
-    async modify(req,res){
-
-    },
-
     async delete(req,res){
         try {
             const appointmentId = await Appointment.destroy({
@@ -68,7 +64,15 @@ const AppointmentController = {
     },
 
     async showPending(req,res){
-
+            Appointment.findAll({
+                where: {status: 'OnProgress', CustomerId: req.params.id},
+            }).then(appointments => {
+                res.send(appointments);
+            }).catch(error => {
+                res.status(500).send({
+                    message: 'Cannot show pending appointments'
+                })
+            })
     }
 }
 

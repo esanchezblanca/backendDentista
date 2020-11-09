@@ -5,7 +5,7 @@ const PORT = 3000;
 
 
 const customerRouter = require('./routes/customerRouters');
-// const appointmentRouter = require('./routes/appointmentRouters');
+const appointmentRouter = require('./routes/appointmentRouters');
 const historyRouter = require('./routes/historyRouters');
 
 
@@ -36,7 +36,7 @@ app.use(function(req, res, next) { //para evitar el error CORS
 //Enrutados
 app.use('/customers', customerRouter);
 app.use('/history', historyRouter);
-// app.use('/appointments', appointmentRouter);
+app.use('/appointment', appointmentRouter);
 
 
 app.listen(PORT, () => console.log(`Server working on ${PORT} port`));

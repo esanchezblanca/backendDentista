@@ -1,4 +1,6 @@
 const {Customer, sequelize} = require('../models/index.js');
+const jwt = require('jsonwebtoken');
+const config = require ('../config');
 
 
 // const bcrypt = require('bcrypt');
@@ -34,30 +36,32 @@ const customerController = {
         }
     },
 
-    // async login(req, res) {
-    // let user = await User.exists({'mail': req.body.mail})
-    // let password = await User.exists({'mail': req.body.mail,'password':req.body.password})
+   async login(req, res) {
+    Customer.findAll({
+        where: {mail: req.body.mail, password: req.body.password},
+    }).then(customers => {
+        const payload = {
+            check: true
+        };
+        const token = jwt.sign(payload, config.key, {
+            expiresIn: 9999
+        });
+        res.json({
+            mensaje: 'Autenticación correcta',
+            token: token
+        });
 
+        res.send(customers);
 
-    // if ( user && password) {
-    //        const payload = {
-    //         check: true
-    //          };
-    //           const token = jwt.sign(payload, config.key, {
-    //            expiresIn: 1440
-    //         });
-    //          res.json({
-    //               mensaje: 'Autenticación correcta',
-    //             token: token
-    //        });
-    //    } else {
-    //         res.json({ mensaje: "Datos incorrectos" }) 
-    //     }
-    // },
-
-    // async logout(req,res){
-
-    // },
+    }).catch(error => {
+        console.log(error)
+        res.status(500).send({
+            message: error
+        })
+    })
+},
+    
+         
 
     async delete(req, res) {
       

@@ -27,10 +27,6 @@ const HistoryController = {
         }
     },          
 
-    async modify(req,res){
-
-    },
-
     async delete(req,res){
         try {
             const historyId = await History.destroy({

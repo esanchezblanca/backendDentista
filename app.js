@@ -1,8 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
 const app = express();
-const PORT = 3000;
-
+const PORT = process.env.PORT || 3000;
 
 const customerRouter = require('./routes/customerRouters');
 const appointmentRouter = require('./routes/appointmentRouters');

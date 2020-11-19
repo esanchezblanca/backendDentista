@@ -1,7 +1,8 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const cors = require ('cors');
+const PORT = process.env.PORT || 3200;
 
 const customerRouter = require('./routes/customerRouters');
 const appointmentRouter = require('./routes/appointmentRouters');
@@ -27,10 +28,12 @@ app.use(express.json());
 
 
 //Hace que no de error el cors
-app.use(function(req, res, next) { 
-    res.header("Access-Control-Allow-Origin", "*"); 
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"); 
-    // res.header("Access-Control-Allow-Methods", "GET, POST");
+app.use(cors());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     next();
 });
 

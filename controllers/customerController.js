@@ -34,26 +34,27 @@ const customerController = {
         }
     },
 
+
    async login(req, res) {
-    Customer.findAll({
+    await Customer.findAll({
         where: {mail: req.body.mail, password: req.body.password},
-    }).then(customers => {
+    }).then(customer => {
         const payload = {
             check: true
         };
         const token = jwt.sign(payload, config.key, {
             expiresIn: 9999
         });
-        res.json({
+        res.send({
             mensaje: 'Autenticación correcta',
-            token: token
+            token,
+            customer
+
         });
 
-        res.send(customers);
 
     }).catch(error => {
-        console.log(error)
-        res.status(500).send({
+        return res.status(400).send({
             message: error
         })
     })

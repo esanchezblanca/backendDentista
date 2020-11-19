@@ -5,7 +5,7 @@ const usersToken = require('../middlewares/auth.js');
 
 
 
-router.post('/register', usersToken.tokenMiddle, CustomerController.register);
+router.post('/register', CustomerController.register);
 
 router.post('/login', CustomerController.login);
 

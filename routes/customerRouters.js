@@ -12,12 +12,12 @@ router.post('/login', CustomerController.login);
 // router.logout('/logout', CustomerController.logout);
 
 //Solo los admin pueden eliminar las fichas de los clientes
-router.delete('/delete', adminToken.adminMiddleware, CustomerController.delete);
+router.delete('/delete', CustomerController.delete);
 
 
 //Solo el admin puede sacar una lista de todos los clientes o por su id
-router.get('/findId/:id', adminToken.adminMiddleware, CustomerController.findId);
+router.get('/findId/:id', CustomerController.findId);
 
-router.get('/findAll', adminToken.adminMiddleware, CustomerController.findAll);
+router.get('/findAll', CustomerController.findAll);
 
 module.exports = router;

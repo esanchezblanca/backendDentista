@@ -58,7 +58,7 @@ const customerController = {
                     password: req.body.password
                 }
             })
-            console.log(user)
+console.log(user)
             if (!user) {
                 return res.status(400).send({
                     message: 'The account could not be removed. Please check mail'
